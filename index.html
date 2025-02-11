@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .option {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+        .score {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        #restart-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        #restart-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question-container" class="question"></div>
+        <div id="options-container" class="options"></div>
+        <div id="score-container" class="score"></div>
+        <button id="restart-button" style="display: none;">Restart Game</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Which of these animals lives in the water?",
+                options: ["Rabbit", "Fish", "Buffalo"],
+                answer: 1
+            },
+            {
+                question: "How many meters is the distance of 1 kilometer?",
+                options: ["1000 meters", "2000 meters", "3000 meters"],
+                answer: 0
+            },
+            {
+                question: "What is the capital of France?",
+                options: ["Berlin", "Paris", "Madrid"],
+                answer: 1
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            const questionContainer = document.getElementById('question-container');
+            const optionsContainer = document.getElementById('options-container');
+            const scoreContainer = document.getElementById('score-container');
+            const restartButton = document.getElementById('restart-button');
+
+            if (currentQuestionIndex < questions.length) {
+                const currentQuestion = questions[currentQuestionIndex];
+                questionContainer.textContent = currentQuestion.question;
+                optionsContainer.innerHTML = '';
+
+                currentQuestion.options.forEach((option, index) => {
+                    const optionButton = document.createElement('div');
+                    optionButton.textContent = option;
+                    optionButton.classList.add('option');
+                    optionButton.addEventListener('click', () => checkAnswer(index));
+                    optionsContainer.appendChild(optionButton);
+                });
+
+                scoreContainer.textContent = `Score: ${score}`;
+                restartButton.style.display = 'none'; // 게임 중에는 버튼 숨김
+            } else {
+                questionContainer.textContent = "Quiz Over!";
+                optionsContainer.innerHTML = '';
+                scoreContainer.textContent = `Final Score: ${score}`;
+                restartButton.style.display = 'block'; // 게임 종료 시 버튼 표시
+            }
+        }
+
+        function checkAnswer(selectedIndex) {
+            const currentQuestion = questions[currentQuestionIndex];
+            if (selectedIndex === currentQuestion.answer) {
+                score++;
+                currentQuestionIndex++;
+                displayQuestion();
+            } else {
+                alert("Wrong answer! Game over.");
+                document.getElementById('question-container').textContent = "Quiz Over!";
+                document.getElementById('options-container').innerHTML = '';
+                document.getElementById('score-container').textContent = `Final Score: ${score}`;
+                document.getElementById('restart-button').style.display = 'block'; // 게임 종료 시 버튼 표시
+            }
+        }
+
+        function restartGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            displayQuestion();
+        }
+
+        // Restart 버튼 클릭 이벤트
+        document.getElementById('restart-button').addEventListener('click', restartGame);
+
+        // 초기 질문 표시
+        displayQuestion();
+    </script>
+</body>
+</html>
