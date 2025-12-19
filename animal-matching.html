@@ -15,7 +15,7 @@
     <style>
         .perspective-1000 { perspective: 1000px; }
         .preserve-3d { transform-style: preserve-3d; }
-        .backface-hidden { backface-visibility: hidden; }
+        .backface-hidden { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
         .rotate-y-180 { transform: rotateY(180deg); }
         .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         
@@ -209,7 +209,7 @@
                                         className={`relative w-full h-full cursor-pointer perspective-1000 group`}
                                     >
                                         <div
-                                            className={`w-full h-full relative preserve-3d transition-all duration-500 transform shadow-md rounded-xl ${
+                                            className={`w-full h-full relative preserve-3d transition-all duration-500 shadow-md rounded-xl ${
                                                 card.isFlipped || card.isMatched ? 'rotate-y-180' : ''
                                             }`}
                                         >
